@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas NoSQL - Módulo Elegante</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#151518',
+                            950: '#09090b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #09090b;
+            color: #e4e4e7;
+            min-height: 100vh;
+        }
+
+        /* Cursor minimalista tipo máquina de escribir */
+        .typing-cursor::after {
+            content: '';
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background-color: #38bdf8;
+            margin-left: 3px;
+            vertical-align: middle;
+            animation: pulse-cursor 0.9s infinite;
+        }
+
+        @keyframes pulse-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .code-container {
+            background-color: #121215;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .code-container:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Syntax coloring mejorado y diferenciado por clases */
+        .syn-object { color: #f43f5e; font-weight: 500; }     /* Objetos/Instancias (db) */
+        .syn-collection { color: #38bdf8; font-weight: 500; } /* Colección/Tabla/Etiqueta (clientes, Cliente) */
+        .syn-method { color: #f59e0b; font-weight: 600; }     /* Métodos/Funciones (find) */
+        .syn-keyword { color: #c084fc; font-weight: 600; }    /* Palabras clave (SELECT, FROM, WHERE, MATCH, RETURN, GET) */
+        .syn-prop { color: #e2e8f0; font-weight: 400; }       /* Propiedades/Campos (ciudad) */
+        .syn-string { color: #4ade80; }                       /* Cadenas de texto ('Bogotá') */
+        .syn-number { color: #fb923c; font-weight: 600; }     /* Números (1001) */
+        .syn-operator { color: #94a3b8; }                     /* Operadores (*, =, :) */
+        .syn-punct { color: #64748b; }                        /* Puntuación y llaves ({}, (), ., ;) */
+
+        /* Scrollbar suave */
+        ::-webkit-scrollbar {
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121215;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-center items-center p-4 sm:p-10">
+
+    <!-- Card Contenedora -->
+    <div class="max-w-3xl w-full bg-zinc-900/60 border border-zinc-800/80 rounded-2xl shadow-2xl p-6 sm:p-10 my-auto relative">
+        
+        <!-- Barra de Instrucciones Superior -->
+        <div class="mb-8 bg-zinc-950/70 border border-zinc-800/90 rounded-xl p-4 flex items-start gap-3 text-xs text-zinc-300 shadow-sm">
+            <i class="fa-solid fa-circle-info text-sky-400 text-sm mt-0.5 shrink-0"></i>
+            <div class="space-y-1">
+                <p><span class="font-medium text-zinc-100">Instrucciones:</span> Haga clic sobre el menú desplegable en la esquina superior derecha para cambiar la velocidad de escritura.</p>
+                <p>Utilice el botón de reinicio ( <i class="fa-solid fa-arrow-rotate-right text-[10px] text-zinc-400"></i> ) para volver a reproducir la animación en cualquier momento.</p>
+            </div>
+        </div>
+
+        <!-- Header minimalista -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-zinc-800/80 gap-4">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-semibold text-zinc-100 tracking-tight">
+                    Consultas en Bases de Datos NoSQL
+                </h1>
+                <p class="text-xs text-zinc-400 mt-1 font-light">Estructuras de sintaxis comparativas con animación en tiempo real</p>
+            </div>
+
+            <!-- Controles integrados sin solapamiento -->
+            <div class="flex items-end gap-3 self-end sm:self-auto">
+                <div class="flex flex-col">
+                    <label for="speedSelect" class="text-[10px] font-medium text-sky-400 mb-1 flex items-center gap-1">
+                        <i class="fa-solid fa-gauge-high text-[9px]"></i> Velocidad de escritura
+                    </label>
+                    <div class="flex items-center bg-zinc-950/90 px-3 py-2 rounded-xl border border-zinc-800 text-xs">
+                        <select id="speedSelect" class="bg-transparent text-zinc-200 focus:outline-none cursor-pointer font-medium text-xs">
+                            <option value="60" class="bg-zinc-900">Lenta</option>
+                            <option value="35" selected class="bg-zinc-900">Normal</option>
+                            <option value="15" class="bg-zinc-900">Rápida</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="btnReplay" onclick="startTypingAnimation()" title="Reiniciar animación" class="flex items-center justify-center w-10 h-9 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl border border-zinc-700/50 transition-all duration-150 active:scale-95 shadow-sm">
+                    <i class="fa-solid fa-arrow-rotate-right text-xs"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Secciones de Código -->
+        <div class="space-y-7">
+
+            <!-- 1. MongoDB -->
+            <div class="space-y-2">
+                <h2 class="text-xs font-semibold text-zinc-400 tracking-wider uppercase px-0.5">MongoDB</h2>
+                <div class="code-container rounded-xl px-5 py-4 font-mono text-xs sm:text-sm overflow-x-auto min-h-[54px] flex items-center">
+                    <code id="code-0" class="w-full text-zinc-300 whitespace-nowrap"></code>
+                </div>
+            </div>
+
+            <!-- 2. Redis -->
+            <div class="space-y-2">
+                <h2 class="text-xs font-semibold text-zinc-400 tracking-wider uppercase px-0.5">Redis</h2>
+                <div class="code-container rounded-xl px-5 py-4 font-mono text-xs sm:text-sm overflow-x-auto min-h-[54px] flex items-center">
+                    <code id="code-1" class="w-full text-zinc-300 whitespace-nowrap"></code>
+                </div>
+            </div>
+
+            <!-- 3. Cassandra CQL -->
+            <div class="space-y-2">
+                <h2 class="text-xs font-semibold text-zinc-400 tracking-wider uppercase px-0.5">Cassandra CQL</h2>
+                <div class="code-container rounded-xl px-5 py-4 font-mono text-xs sm:text-sm overflow-x-auto min-h-[54px] flex items-center">
+                    <code id="code-2" class="w-full text-zinc-300 whitespace-nowrap"></code>
+                </div>
+            </div>
+
+            <!-- 4. Neo4j Cypher -->
+            <div class="space-y-2">
+                <h2 class="text-xs font-semibold text-zinc-400 tracking-wider uppercase px-0.5">Neo4j Cypher</h2>
+                <div class="code-container rounded-xl px-5 py-4 font-mono text-xs sm:text-sm overflow-x-auto min-h-[54px] flex items-center">
+                    <code id="code-3" class="w-full text-zinc-300 whitespace-nowrap"></code>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Tokens enriquecidos con clases específicas por elemento
+        const queries = [
+            {
+                raw: 'db.clientes.find({ciudad:"Bogotá"})',
+                tokens: [
+                    { text: 'db', class: 'syn-object' },
+                    { text: '.', class: 'syn-punct' },
+                    { text: 'clientes', class: 'syn-collection' },
+                    { text: '.', class: 'syn-punct' },
+                    { text: 'find', class: 'syn-method' },
+                    { text: '({', class: 'syn-punct' },
+                    { text: 'ciudad', class: 'syn-prop' },
+                    { text: ':', class: 'syn-operator' },
+                    { text: '"Bogotá"', class: 'syn-string' },
+                    { text: '})', class: 'syn-punct' }
+                ]
+            },
+            {
+                raw: 'GET cliente:1001',
+                tokens: [
+                    { text: 'GET', class: 'syn-keyword' },
+                    { text: ' cliente', class: 'syn-prop' },
+                    { text: ':', class: 'syn-operator' },
+                    { text: '1001', class: 'syn-number' }
+                ]
+            },
+            {
+                raw: "SELECT * FROM clientes WHERE ciudad='Bogotá';",
+                tokens: [
+                    { text: 'SELECT', class: 'syn-keyword' },
+                    { text: ' * ', class: 'syn-operator' },
+                    { text: 'FROM', class: 'syn-keyword' },
+                    { text: ' clientes ', class: 'syn-collection' },
+                    { text: 'WHERE', class: 'syn-keyword' },
+                    { text: ' ciudad', class: 'syn-prop' },
+                    { text: '=', class: 'syn-operator' },
+                    { text: "'Bogotá'", class: 'syn-string' },
+                    { text: ';', class: 'syn-punct' }
+                ]
+            },
+            {
+                raw: "MATCH (c:Cliente {ciudad:'Bogotá'}) RETURN c",
+                tokens: [
+                    { text: 'MATCH', class: 'syn-keyword' },
+                    { text: ' (', class: 'syn-punct' },
+                    { text: 'c', class: 'syn-prop' },
+                    { text: ':', class: 'syn-operator' },
+                    { text: 'Cliente', class: 'syn-collection' },
+                    { text: ' {', class: 'syn-punct' },
+                    { text: 'ciudad', class: 'syn-prop' },
+                    { text: ':', class: 'syn-operator' },
+                    { text: "'Bogotá'", class: 'syn-string' },
+                    { text: '}) ', class: 'syn-punct' },
+                    { text: 'RETURN', class: 'syn-keyword' },
+                    { text: ' c', class: 'syn-prop' }
+                ]
+            }
+        ];
+
+        let typingTimeouts = [];
+
+        function startTypingAnimation() {
+            typingTimeouts.forEach(t => clearTimeout(t));
+            typingTimeouts = [];
+
+            const speed = parseInt(document.getElementById('speedSelect').value) || 35;
+
+            queries.forEach((_, idx) => {
+                const el = document.getElementById(`code-${idx}`);
+                el.innerHTML = '';
+                el.classList.remove('typing-cursor');
+            });
+
+            let globalDelay = 80;
+
+            queries.forEach((q, blockIndex) => {
+                const codeEl = document.getElementById(`code-${blockIndex}`);
+                
+                const startTimeout = setTimeout(() => {
+                    document.querySelectorAll('code').forEach(c => c.classList.remove('typing-cursor'));
+                    codeEl.classList.add('typing-cursor');
+                    
+                    typeBlockTokens(codeEl, q.tokens, speed, () => {
+                        if (blockIndex === queries.length - 1) {
+                            setTimeout(() => codeEl.classList.remove('typing-cursor'), 1200);
+                        }
+                    });
+                }, globalDelay);
+
+                typingTimeouts.push(startTimeout);
+                globalDelay += (q.raw.length * speed) + 200;
+            });
+        }
+
+        function typeBlockTokens(container, tokens, speed, onComplete) {
+            let tokenIndex = 0;
+
+            function processNextToken() {
+                if (tokenIndex >= tokens.length) {
+                    if (onComplete) onComplete();
+                    return;
+                }
+
+                const currentToken = tokens[tokenIndex];
+                const span = document.createElement('span');
+                if (currentToken.class) {
+                    span.className = currentToken.class;
+                }
+                container.appendChild(span);
+
+                let charIndex = 0;
+                function typeChar() {
+                    if (charIndex < currentToken.text.length) {
+                        span.textContent += currentToken.text.charAt(charIndex);
+                        charIndex++;
+                        const t = setTimeout(typeChar, speed);
+                        typingTimeouts.push(t);
+                    } else {
+                        tokenIndex++;
+                        processNextToken();
+                    }
+                }
+
+                typeChar();
+            }
+
+            processNextToken();
+        }
+
+        document.getElementById('speedSelect').addEventListener('change', () => {
+            startTypingAnimation();
+        });
+
+        window.onload = function() {
+            startTypingAnimation();
+        };
+    </script>
+</body>
+</html>
