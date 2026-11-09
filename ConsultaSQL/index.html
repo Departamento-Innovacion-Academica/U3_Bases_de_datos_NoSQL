@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Índices en Bases de Datos - Tarjetas Interactivas</title>
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #09090b 0%, #120b18 50%, #180e29 100%);
+      --card-bg: #14101d;
+      --card-border: #3b225c;
+      --card-border-hover: #8b5cf6;
+      --accent-purple: #8b5cf6;
+      --accent-glow: rgba(139, 92, 246, 0.25);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --modal-overlay: rgba(5, 3, 10, 0.85);
+      --modal-bg: #1a1326;
+      --code-bg: #0f0a17;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    /* Instrucción Flotante */
+    .floating-instruction {
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #d8b4fe;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      animation: float 3s ease-in-out infinite, fadeInDown 0.8s ease-out;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .floating-instruction svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Grid de Tarjetas */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.75rem;
+      max-width: 1100px;
+      width: 100%;
+      padding: 0 1rem;
+    }
+
+    /* Tarjeta */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.2rem 1.8rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px;
+      opacity: 0;
+      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.25s; }
+    .card:nth-child(3) { animation-delay: 0.4s; }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #6b21a8, #8b5cf6, #c084fc);
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-border-hover);
+      box-shadow: 0 20px 40px -15px var(--accent-glow), 0 0 20px rgba(139, 92, 246, 0.15);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-action {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #c084fc;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover .card-action {
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    .card-action svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* Modal emergente */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--modal-overlay);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: var(--modal-bg);
+      border: 1px solid #4c2885;
+      border-radius: 20px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(139, 92, 246, 0.2);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(139, 92, 246, 0.2);
+      color: #ffffff;
+      border-color: var(--accent-purple);
+    }
+
+    .modal-body h3 {
+      font-size: 1.4rem;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #3b225c;
+    }
+
+    .modal-body p {
+      color: #d1d5db;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .modal-body ul {
+      list-style: none;
+      margin: 1rem 0 1.25rem 0;
+    }
+
+    .modal-body ul li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.6rem;
+      color: #e5e7eb;
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+
+    .modal-body ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0.25rem;
+      color: #c084fc;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .modal-body .note {
+      background: rgba(139, 92, 246, 0.08);
+      border-left: 3px solid var(--accent-purple);
+      padding: 0.85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      color: #d8b4fe;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    /* Keyframes Animaciones */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scrollbar Personalizado */
+    .modal-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-content::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .modal-content::-webkit-scrollbar-thumb {
+      background: #3b225c;
+      border-radius: 10px;
+    }
+    .modal-content::-webkit-scrollbar-thumb:hover {
+      background: #8b5cf6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Instrucción flotante -->
+  <div class="floating-instruction">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+    </svg>
+    Haga clic sobre cada tarjeta para ampliar la información.
+  </div>
+
+  <!-- Contenedor de Tarjetas -->
+  <div class="cards-container">
+    
+    <!-- Tarjeta 1 -->
+    <div class="card" onclick="openModal('modal1')">
+      <h2 class="card-title">3.1.7 Consultas típicas que requieren índice</h2>
+      <div class="card-action">
+        Ver contenido completo
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <!-- Tarjeta 2 -->
+    <div class="card" onclick="openModal('modal2')">
+      <h2 class="card-title">3.1.8 Índice no siempre necesario</h2>
+      <div class="card-action">
+        Ver contenido completo
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <!-- Tarjeta 3 -->
+    <div class="card" onclick="openModal('modal3')">
+      <h2 class="card-title">3.1.9 Diferencia frente a SQL</h2>
+      <div class="card-action">
+        Ver contenido completo
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODALES -->
+
+  <!-- Modal 1 -->
+  <div class="modal-overlay" id="modal1" onclick="closeModalOnOutsideClick(event, 'modal1')">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal1')">&times;</button>
+      <div class="modal-body">
+        <h3>3.1.7 Consultas típicas que requieren índice</h3>
+        <ul>
+          <li>Búsqueda por correo electrónico</li>
+          <li>Login por usuario</li>
+          <li>Historial por fecha</li>
+          <li>Productos por categoría</li>
+          <li>Pedidos por cliente</li>
+          <li>Eventos por Timestamp</li>
+        </ul>
+        <div class="note">
+          Si estas consultas son frecuentes, la indexación suele ser recomendable.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="modal-overlay" id="modal2" onclick="closeModalOnOutsideClick(event, 'modal2')">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal2')">&times;</button>
+      <div class="modal-body">
+        <h3>3.1.8 Índice no siempre necesario</h3>
+        <p>No conviene indexar:</p>
+        <ul>
+          <li>Campos casi nunca consultados</li>
+          <li>Atributos con altísima modificación constante</li>
+          <li>Colecciones pequeñas</li>
+          <li>Campos de baja selectividad sin utilidad real</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="modal-overlay" id="modal3" onclick="closeModalOnOutsideClick(event, 'modal3')">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('modal3')">&times;</button>
+      <div class="modal-body">
+        <h3>3.1.9 Diferencia frente a SQL</h3>
+        <p>En SQL los índices suelen asociarse a tablas y columnas tradicionales.</p>
+        <p>En NoSQL, la lógica depende del motor:</p>
+        <ul>
+          <li>Documentos JSON</li>
+          <li>Claves distribuidas</li>
+          <li>Particiones</li>
+          <li>Nodos y relaciones</li>
+        </ul>
+        <div class="note">
+          Por ello, el concepto es similar, pero la implementación varía.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function closeModalOnOutsideClick(event, modalId) {
+      if (event.target.id === modalId) {
+        closeModal(modalId);
+      }
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const activeModal = document.querySelector('.modal-overlay.active');
+        if (activeModal) {
+          closeModal(activeModal.id);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
