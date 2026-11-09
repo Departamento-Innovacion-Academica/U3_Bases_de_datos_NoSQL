@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riesgo y Consecuencia</title>
+    <!-- Importación de la fuente Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #483C9A;
+            --primary-hover: #362C78;
+            --bg-light: #F0EEF9;
+            --bg-white: #ffffff;
+            --text-color: #2c3e50;
+            --border-color: #D3CEEE;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f6f5fb;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* --- CONTENEDOR DE CONTROLES SUPERIOR DERECHO --- */
+        .top-controls-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #555555;
+            background-color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #D3CEEE;
+            font-weight: 400;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #5C4EB8 0%, #483C9A 100%);
+            color: #ffffff;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 25px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13.5px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            box-shadow: 0 4px 15px rgba(72, 60, 154, 0.25);
+        }
+
+        .play-btn .icon {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #6C5CCB 0%, #362C78 100%);
+            box-shadow: 0 6px 20px rgba(72, 60, 154, 0.35);
+        }
+
+        .play-btn:hover .icon {
+            transform: scale(1.15);
+        }
+
+        .play-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(72, 60, 154, 0.2);
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 12px 40px rgba(72, 60, 154, 0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 13.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 20px;
+            text-align: center;
+            border-bottom: 2px solid #ffffff;
+            opacity: 0;
+            animation: whipRow 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            animation-delay: 0.0s;
+        }
+
+        td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.5;
+            vertical-align: middle;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            border: 1px solid var(--border-color);
+            font-weight: 400;
+        }
+
+        /* --- CONTROL DE PROPORCIONES Y ALINEACIONES (2 COLUMNAS) --- */
+        th:nth-child(1), td:nth-child(1) { 
+            width: 40%; 
+            text-align: left;
+            border-left: none;
+        }
+
+        th:nth-child(2), td:nth-child(2) { 
+            width: 60%; 
+            text-align: left;
+            border-right: none;
+        }
+
+        /* Separador entre encabezados */
+        th:nth-child(1) { 
+            border-right: 1px solid rgba(255, 255, 255, 0.2); 
+        }
+
+        /* Alternancia de color en las filas */
+        tbody tr:nth-child(odd) td {
+            background-color: var(--bg-white);
+        }
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+
+        /* --- KEYFRAMES EFECTO LÁTIGO (WHIP EFFECT) --- */
+        @keyframes whipRow {
+            0% {
+                opacity: 0;
+                transform: translateX(-120px) scaleX(1.15) skewX(12deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(20px) scaleX(0.92) skewX(-4deg);
+            }
+            80% {
+                transform: translateX(-8px) scaleX(1.03) skewX(1.5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scaleX(1) skewY(0deg);
+            }
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: whipRow 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        /* Retrasos secuenciales para los elementos (Encabezado + filas) */
+        thead tr { animation-delay: 0.0s; }
+        tbody tr:nth-child(1) { animation-delay: 0.08s; }
+        tbody tr:nth-child(2) { animation-delay: 0.16s; }
+        tbody tr:nth-child(3) { animation-delay: 0.24s; }
+        tbody tr:nth-child(4) { animation-delay: 0.32s; }
+
+        /* Efecto Hover interactivo */
+        tbody tr:hover td {
+            background-color: rgba(72, 60, 154, 0.08) !important;
+            transition: background-color 0.15s ease;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Controles situados en la zona superior derecha -->
+    <div class="top-controls-container">
+        <div class="hint">Haga clic en el botón "▶ Reiniciar" para reproducir la animación.</div>
+        <button class="play-btn" id="restartBtn" title="Reiniciar animación">
+            <span class="icon">▶</span>
+            <span>Reiniciar</span>
+        </button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Riesgo</th>
+                    <th>Consecuencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fila 1 -->
+                <tr>
+                    <td>Reemplazo completo accidental</td>
+                    <td>Pérdida de campos</td>
+                </tr>
+                <!-- Fila 2 -->
+                <tr>
+                    <td>Escrituras concurrentes</td>
+                    <td>Sobrescritura</td>
+                </tr>
+                <!-- Fila 3 -->
+                <tr>
+                    <td>Sin filtros adecuados</td>
+                    <td>Cambios no deseados</td>
+                </tr>
+                <!-- Fila 4 -->
+                <tr>
+                    <td>Exceso de actualizaciones</td>
+                    <td>Baja performance</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Script JavaScript para reiniciar tanto el encabezado como las filas -->
+    <script>
+        function triggerWhipAnimation() {
+            const elements = document.querySelectorAll('thead tr, tbody tr');
+            elements.forEach(el => {
+                el.style.animation = 'none';
+                void el.offsetWidth; // Forzar reflujo del navegador
+                el.style.animation = ''; // Restablecer la animación CSS
+            });
+        }
+
+        document.getElementById('restartBtn').addEventListener('click', triggerWhipAnimation);
+    </script>
+</body>
+</html>
