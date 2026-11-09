@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operador y Significado</title>
+    <title>Operación y Función</title>
     <!-- Importación de la fuente Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -192,7 +192,6 @@
         tbody tr:nth-child(2) { animation-delay: 0.16s; }
         tbody tr:nth-child(3) { animation-delay: 0.24s; }
         tbody tr:nth-child(4) { animation-delay: 0.32s; }
-        tbody tr:nth-child(5) { animation-delay: 0.40s; }
 
         /* Efecto Hover interactivo */
         tbody tr:hover td {
@@ -217,35 +216,30 @@
         <table>
             <thead>
                 <tr>
-                    <th>Operador</th>
-                    <th>Significado</th>
+                    <th>Operación</th>
+                    <th>Función</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Fila 1 -->
                 <tr>
-                    <td>$gt</td>
-                    <td>Mayor que</td>
+                    <td>sort()</td>
+                    <td>Ordenar</td>
                 </tr>
                 <!-- Fila 2 -->
                 <tr>
-                    <td>$lt</td>
-                    <td>Menor que</td>
+                    <td>limit()</td>
+                    <td>Limitar resultados</td>
                 </tr>
                 <!-- Fila 3 -->
                 <tr>
-                    <td>$gte</td>
-                    <td>Mayor o igual</td>
+                    <td>skip()</td>
+                    <td>Saltar registros</td>
                 </tr>
                 <!-- Fila 4 -->
                 <tr>
-                    <td>$lte</td>
-                    <td>Menor o igual</td>
-                </tr>
-                <!-- Fila 5 -->
-                <tr>
-                    <td>$ne</td>
-                    <td>Diferente</td>
+                    <td>project</td>
+                    <td>Seleccionar campos</td>
                 </tr>
             </tbody>
         </table>
