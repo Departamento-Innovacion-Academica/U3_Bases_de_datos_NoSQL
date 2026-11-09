@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas, Indexación y Consistencia en NoSQL - Bibliografía</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-base: #483C9A; 
+            --accent-bright: #b3a6ff; 
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(72, 60, 154, 0.4);
+            --text-main: #ffffff;
+            --text-dim: #dfdbf7;
+        }
+
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: #05040f;
+            color: var(--text-main);
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden; cursor: default;
+        }
+
+        .fluid-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; background: #070617; filter: blur(80px);
+        }
+        .fluid-layer { position: absolute; border-radius: 50%; opacity: 0.35; animation: fluidMove infinite alternate ease-in-out; }
+        .layer-1 { background: radial-gradient(circle, var(--accent-base) 0%, transparent 70%); width: 100vw; height: 100vw; top: -30%; left: -10%; animation-duration: 20s; }
+        .layer-2 { background: radial-gradient(circle, #1a1540 0%, transparent 70%); width: 80vw; height: 80vw; bottom: -20%; right: -10%; animation-duration: 25s; }
+        @keyframes fluidMove { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(10%, 5%) scale(1.1); } }
+
+        /* Animaciones de entrada de impacto */
+        @keyframes impactEntry {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes headerEntry {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-instruction, .main-header {
+            animation: headerEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .nav-instruction {
+            width: 90vw; max-width: 1400px;
+            background: rgba(72, 60, 154, 0.15);
+            border: 1px dashed var(--accent-bright);
+            padding: 15px; border-radius: 12px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem; color: var(--accent-bright);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .main-header { text-align: center; padding: 30px 20px; z-index: 1; animation-delay: 0.15s; }
+        .main-header h1 { font-weight: 300; font-size: 2rem; letter-spacing: 4px; text-transform: uppercase; margin: 0; background: linear-gradient(to right, #fff, var(--text-dim)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .main-header .line { width: 60px; height: 3px; background: var(--accent-bright); margin: 15px auto; }
+
+        .reference-grid {
+            display: grid; width: 90vw; max-width: 1400px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px; padding-bottom: 80px; z-index: 1;
+        }
+
+        .card {
+            font-family: 'Poppins', sans-serif;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 25px;
+            display: flex; flex-direction: column;
+            transition: all 0.3s ease;
+            min-height: 160px;
+            opacity: 0;
+            animation: impactEntry 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .card:hover { 
+            border-color: var(--accent-bright); 
+            transform: translateY(-5px); 
+            background: rgba(72, 60, 154, 0.12); 
+            box-shadow: 0 10px 20px rgba(72, 60, 154, 0.25); 
+        }
+
+        .author-tag { font-size: 0.75rem; font-weight: 600; color: var(--accent-bright); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .title { font-size: 0.9rem; font-weight: 400; line-height: 1.6; color: var(--text-main); margin-bottom: 15px; }
+
+        .footer-info {
+            font-size: 0.75rem; font-weight: 300; color: var(--text-dim);
+            border-top: 1px solid rgba(72, 60, 154, 0.3);
+            padding-top: 15px; margin-top: auto; word-break: break-all;
+        }
+
+        .link-text {
+            color: var(--accent-bright);
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        .link-text:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fluid-background">
+        <div class="fluid-layer layer-1"></div>
+        <div class="fluid-layer layer-2"></div>
+    </div>
+
+    <div class="nav-instruction">
+        ⚡ <b>Instrucción de Navegación:</b> Consulta las referencias de la unidad 3. Operaciones, Consultas y Gestión de Datos.
+    </div>
+
+    <header class="main-header">
+        <h1>Bibliografía</h1>
+        <div class="line"></div>
+    </header>
+
+    <main class="reference-grid" id="grid"></main>
+
+    <script>
+        const sources = [
+            { a: "Amazon Web Services (2024a)", t: "Amazon DynamoDB Developer Guide – Query and Scan Operations", f: "Amazon Web Services", u: "https://docs.aws.amazon.com/dynamodb" },
+            { a: "Amazon Web Services (2024b)", t: "Amazon DynamoDB Developer Guide – Read Consistency", f: "Amazon Web Services", u: "https://docs.aws.amazon.com/dynamodb" },
+            { a: "Apache Software Foundation (2024a)", t: "Apache Cassandra Documentation – CQL Reference", f: "Apache Software Foundation", u: "https://cassandra.apache.org/doc" },
+            { a: "Apache Software Foundation (2024b)", t: "Apache Cassandra Documentation – Secondary Indexes", f: "Apache Software Foundation", u: "https://cassandra.apache.org/doc" },
+            { a: "Apache Software Foundation (2024c)", t: "Apache Cassandra Documentation – Replication Strategies", f: "Apache Software Foundation", u: "https://cassandra.apache.org/doc" },
+            { a: "Chodorow, K. (2020)", t: "MongoDB: The Definitive Guide", f: "O’Reilly Media" },
+            { a: "IBM Cloud Education (2023)", t: "NoSQL Databases: Querying and Scaling Data", f: "IBM Cloud", u: "https://www.ibm.com/cloud" },
+            { a: "Kleppmann, M. (2017)", t: "Designing Data-Intensive Applications", f: "O’Reilly Media" },
+            { a: "Meier, A., & Kaufmann, M. (2019)", t: "SQL & NoSQL Databases: Models, Languages, Consistency Options and Architectures", f: "Springer" },
+            { a: "Microsoft (2024a)", t: "Azure Cosmos DB Documentation – SQL Query Language", f: "Microsoft", u: "https://learn.microsoft.com/azure/cosmos-db" },
+            { a: "Microsoft (2024b)", t: "Azure Cosmos DB Documentation – Consistency Levels", f: "Microsoft", u: "https://learn.microsoft.com/azure/cosmos-d" },
+            { a: "Microsoft (2024c)", t: "Azure Cosmos DB Documentation – Indexing Policies", f: "Microsoft", u: "https://learn.microsoft.com/azure/cosmos-db" },
+            { a: "MongoDB Inc. (2024a)", t: "MongoDB Documentation – CRUD Operations", f: "MongoDB Inc.", u: "https://www.mongodb.com/docs" },
+            { a: "MongoDB Inc. (2024b)", t: "MongoDB Documentation – Query Documents", f: "MongoDB Inc.", u: "https://www.mongodb.com/docs/manual/tutorial/query-documents" },
+            { a: "MongoDB Inc. (2024c)", t: "MongoDB Documentation – Indexes", f: "MongoDB Inc.", u: "https://www.mongodb.com/docs/manual/indexes" },
+            { a: "Neo4j Inc. (2024a)", t: "Cypher Manual – Query Language", f: "Neo4j Inc.", u: "https://neo4j.com/docs" },
+            { a: "Neo4j Inc. (2024b)", t: "Neo4j Documentation – Indexes and Constraints", f: "Neo4j Inc.", u: "https://neo4j.com/doc" },
+            { a: "Oracle Corporation (2024)", t: "Oracle NoSQL Database Documentation – Querying and Tables", f: "Oracle Corporation", u: "https://docs.oracle.com" },
+            { a: "Redis Ltd. (2024a)", t: "Redis Documentation – Data Types and Commands", f: "Redis Ltd.", u: "https://redis.io/docs" },
+            { a: "Redis Ltd. (2024b)", t: "Redis Documentation – Persistence and Replication", f: "Redis Ltd.", u: "https://redis.io/docs" }
+        ];
+
+        const grid = document.getElementById('grid');
+
+        sources.forEach((s, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            card.style.animationDelay = `${0.25 + (index * 0.05)}s`;
+            
+            let footerContent = s.f;
+            if (s.u) {
+                footerContent += ` — <a href="${s.u}" target="_blank" class="link-text">${s.u}</a>`;
+            }
+
+            let html = `
+                <div class="author-tag">${s.a}</div>
+                <div class="title">${s.t}</div>
+                <div class="footer-info">${footerContent}</div>
+            `;
+
+            card.innerHTML = html;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
