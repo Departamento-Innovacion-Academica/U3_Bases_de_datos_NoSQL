@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo MongoDB - insertOne</title>
+  
+  <!-- Tipografía Poppins y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #0d0f12;
+      --card-bg: #14171d;
+      --code-bg: #090a0d;
+      --border-color: #232832;
+      --border-highlight: #343c4c;
+      --text-main: #e2e8f0;
+      --text-muted: #8b949e;
+      
+      /* Sintaxis de colorización */
+      --syn-key: #60a5fa;        /* Azul clave */
+      --syn-string: #34d399;     /* Verde string */
+      --syn-func: #c084fc;       /* Morado función (insertOne) */
+      --syn-number: #f97316;     /* Naranja número */
+      --syn-bracket: #94a3b8;    /* Gris corchetes/llaves */
+      --syn-prop: #f472b6;       /* Rosa propiedad */
+      --syn-plain: #cbd5e1;      /* Texto plano */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Instrucción superior */
+    .instruction-banner {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Panel superior de controles */
+    .controls-header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .control-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .select-style {
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .btn-icon {
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* Tarjetas de código */
+    .code-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-header {
+      background-color: rgba(255, 255, 255, 0.02);
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .code-body {
+      background-color: var(--code-bg);
+      padding: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre;
+      overflow-x: auto;
+      min-height: 160px;
+    }
+
+    /* Clases de Sintaxis */
+    .syn-key { color: var(--syn-key); font-weight: 500; }
+    .syn-string { color: var(--syn-string); }
+    .syn-func { color: var(--syn-func); font-weight: 600; }
+    .syn-number { color: var(--syn-number); font-weight: 600; }
+    .syn-bracket { color: var(--syn-bracket); }
+    .syn-prop { color: var(--syn-prop); }
+    .syn-plain { color: var(--syn-plain); }
+
+    /* Cursor de tipeo */
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background-color: #60a5fa;
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .section-description {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Instrucciones -->
+    <div class="instruction-banner">
+      Haga clic sobre el desplegable para cambiar la velocidad de escritura. Utilice el botón de reinicio ( ↺ ) para volver a reproducir la animación.
+    </div>
+
+    <!-- Panel de Controles -->
+    <div class="controls-header">
+      <div class="controls-group">
+        <div class="input-group">
+          <label class="control-label" for="speedSelect">Velocidad de escritura</label>
+          <select id="speedSelect" class="select-style">
+            <option value="slow">Lenta</option>
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Rápida</option>
+          </select>
+        </div>
+        <button id="restartBtn" class="btn-icon" title="Reiniciar animación">↺</button>
+      </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="section-title">Ejemplo</div>
+
+    <div class="code-card">
+      <div class="code-header">MongoDB insertOne</div>
+      <div class="code-body" id="codeBlock"></div>
+    </div>
+
+    <div class="section-description">Se crea un documento dentro de la colección clientes.</div>
+
+  </div>
+
+  <script>
+    const snippet = [
+      { text: "db", class: "syn-prop" },
+      { text: ".", class: "syn-plain" },
+      { text: "clientes", class: "syn-prop" },
+      { text: ".", class: "syn-plain" },
+      { text: "insertOne", class: "syn-func" },
+      { text: "({\n  ", class: "syn-bracket" },
+      { text: "nombre", class: "syn-key" },
+      { text: ':"', class: "syn-plain" },
+      { text: "Ana Torres", class: "syn-string" },
+      { text: '",\n  ', class: "syn-plain" },
+      { text: "ciudad", class: "syn-key" },
+      { text: ':"', class: "syn-plain" },
+      { text: "Bogotá", class: "syn-string" },
+      { text: '",\n  ', class: "syn-plain" },
+      { text: "edad", class: "syn-key" },
+      { text: ":", class: "syn-plain" },
+      { text: "29", class: "syn-number" },
+      { text: "\n})", class: "syn-bracket" }
+    ];
+
+    const speeds = {
+      slow: 50,
+      normal: 25,
+      fast: 8
+    };
+
+    let currentSpeed = speeds.normal;
+    let animationTimeout = null;
+
+    const block = document.getElementById("codeBlock");
+    const speedSelect = document.getElementById("speedSelect");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function startTyping() {
+      if (animationTimeout) clearTimeout(animationTimeout);
+      block.innerHTML = "";
+
+      let tokenIndex = 0;
+      let charIndex = 0;
+
+      const cursor = document.createElement("span");
+      cursor.className = "cursor";
+      block.appendChild(cursor);
+
+      let currentSpan = null;
+
+      function step() {
+        if (tokenIndex >= snippet.length) {
+          cursor.remove();
+          return;
+        }
+
+        const token = snippet[tokenIndex];
+
+        if (charIndex === 0) {
+          currentSpan = document.createElement("span");
+          if (token.class) currentSpan.className = token.class;
+          block.insertBefore(currentSpan, cursor);
+        }
+
+        currentSpan.textContent += token.text[charIndex];
+        charIndex++;
+
+        if (charIndex >= token.text.length) {
+          tokenIndex++;
+          charIndex = 0;
+        }
+
+        animationTimeout = setTimeout(step, currentSpeed);
+      }
+
+      step();
+    }
+
+    speedSelect.addEventListener("change", (e) => {
+      currentSpeed = speeds[e.target.value] || speeds.normal;
+    });
+
+    restartBtn.addEventListener("click", startTyping);
+
+    // Iniciar animación al cargar
+    startTyping();
+  </script>
+</body>
+</html>
