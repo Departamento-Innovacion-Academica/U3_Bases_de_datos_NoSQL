@@ -11,11 +11,12 @@
             theme: {
                 extend: {
                     colors: {
-                        tealAccent: '#054C50',
-                        tealLight: '#0a7177',
-                        tealDark: '#033235',
-                        darkBg: '#0b1120',
-                        darkCard: '#151e32',
+                        purpleAccent: '#6B21A8',
+                        purpleLight: '#8B5CF6',
+                        purpleDark: '#4C1D95',
+                        purpleGlow: '#C084FC',
+                        darkBg: '#0b0f19',
+                        darkCard: '#16192b',
                     }
                 }
             }
@@ -26,7 +27,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #0b1120;
+            background-color: #0b0f19;
         }
 
         /* Animaciones de entrada (Fade In + Slide Up) */
@@ -55,7 +56,7 @@
             width: 6px;
         }
         .modal-content-scroll::-webkit-scrollbar-thumb {
-            background-color: #054C50;
+            background-color: #6B21A8;
             border-radius: 9999px;
         }
         .modal-content-scroll::-webkit-scrollbar-track {
@@ -63,17 +64,17 @@
         }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 selection:bg-[#054C50] selection:text-white relative overflow-x-hidden">
+<body class="text-slate-200 min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 selection:bg-purple-700 selection:text-white relative overflow-x-hidden">
 
     <!-- Decorative Subtle Ambient Glows -->
-    <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#054C50]/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-900/30 rounded-full blur-[120px] pointer-events-none"></div>
 
     <!-- Instrucción Flotante Superior -->
     <div class="animate-fade-in-up animation-delay-100 mb-10 text-center relative z-10">
-        <div class="inline-flex items-center gap-3 px-6 py-3 bg-slate-900/90 backdrop-blur-md border border-[#054C50]/60 rounded-full shadow-lg shadow-[#054C50]/10 text-slate-300 text-xs sm:text-sm font-medium tracking-wide transition-all hover:border-tealLight hover:shadow-[#054C50]/20">
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-slate-900/90 backdrop-blur-md border border-purple-600/50 rounded-full shadow-lg shadow-purple-900/20 text-slate-300 text-xs sm:text-sm font-medium tracking-wide transition-all hover:border-purpleLight hover:shadow-purple-600/30">
             <span class="relative flex h-2.5 w-2.5">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#054C50]"></span>
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-500"></span>
             </span>
             <span>Haga clic sobre cada tarjeta para ampliar la información.</span>
         </div>
@@ -86,22 +87,22 @@
             <!-- TARJETA 1: 2.3.3 Actualización múltiple -->
             <button 
                 onclick="openModal('modal-233')" 
-                class="animate-fade-in-up animation-delay-200 opacity-0 group relative bg-darkCard/90 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 text-left shadow-xl hover:shadow-2xl hover:shadow-[#054C50]/20 hover:-translate-y-2 hover:border-[#054C50] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#054C50]/30 flex flex-col justify-between min-h-[240px] cursor-pointer overflow-hidden">
+                class="animate-fade-in-up animation-delay-200 opacity-0 group relative bg-darkCard/90 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 text-left shadow-xl hover:shadow-2xl hover:shadow-purple-900/40 hover:-translate-y-2 hover:border-purple-600 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-600/30 flex flex-col justify-between min-h-[240px] cursor-pointer overflow-hidden">
                 
-                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#054C50] via-tealLight to-teal-400 opacity-80 group-hover:h-2 transition-all duration-300"></div>
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purpleDark via-purpleLight to-purpleGlow opacity-80 group-hover:h-2 transition-all duration-300"></div>
                 
                 <div class="pt-2">
-                    <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-teal-300 bg-[#054C50]/40 border border-[#054C50]/60 rounded-full mb-4 group-hover:bg-[#054C50] group-hover:text-white transition-colors">
+                    <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-300 bg-purple-950/60 border border-purple-700/60 rounded-full mb-4 group-hover:bg-purple-700 group-hover:text-white transition-colors">
                         Sección 1
                     </span>
-                    <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-teal-300 transition-colors duration-200 leading-snug">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-200 leading-snug">
                         2.3.3 Actualización múltiple
                     </h2>
                 </div>
 
-                <div class="flex items-center justify-between text-sm font-semibold text-slate-400 group-hover:text-teal-300 transition-colors duration-200 pt-6 border-t border-slate-800/80">
+                <div class="flex items-center justify-between text-sm font-semibold text-slate-400 group-hover:text-purple-300 transition-colors duration-200 pt-6 border-t border-slate-800/80">
                     <span>Ver detalle</span>
-                    <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 group-hover:border-[#054C50] group-hover:bg-[#054C50] flex items-center justify-center transition-all">
+                    <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 group-hover:border-purple-500 group-hover:bg-purple-700 flex items-center justify-center transition-all">
                         <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-200 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -112,22 +113,22 @@
             <!-- TARJETA 2: 2.3.4 Reemplazo completo de documento -->
             <button 
                 onclick="openModal('modal-234')" 
-                class="animate-fade-in-up animation-delay-300 opacity-0 group relative bg-darkCard/90 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 text-left shadow-xl hover:shadow-2xl hover:shadow-[#054C50]/20 hover:-translate-y-2 hover:border-[#054C50] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#054C50]/30 flex flex-col justify-between min-h-[240px] cursor-pointer overflow-hidden">
+                class="animate-fade-in-up animation-delay-300 opacity-0 group relative bg-darkCard/90 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 text-left shadow-xl hover:shadow-2xl hover:shadow-purple-900/40 hover:-translate-y-2 hover:border-purple-600 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-600/30 flex flex-col justify-between min-h-[240px] cursor-pointer overflow-hidden">
                 
-                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#054C50] via-tealLight to-teal-400 opacity-80 group-hover:h-2 transition-all duration-300"></div>
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purpleDark via-purpleLight to-purpleGlow opacity-80 group-hover:h-2 transition-all duration-300"></div>
                 
                 <div class="pt-2">
-                    <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-teal-300 bg-[#054C50]/40 border border-[#054C50]/60 rounded-full mb-4 group-hover:bg-[#054C50] group-hover:text-white transition-colors">
+                    <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-300 bg-purple-950/60 border border-purple-700/60 rounded-full mb-4 group-hover:bg-purple-700 group-hover:text-white transition-colors">
                         Sección 2
                     </span>
-                    <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-teal-300 transition-colors duration-200 leading-snug">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-200 leading-snug">
                         2.3.4 Reemplazo completo de documento
                     </h2>
                 </div>
 
-                <div class="flex items-center justify-between text-sm font-semibold text-slate-400 group-hover:text-teal-300 transition-colors duration-200 pt-6 border-t border-slate-800/80">
+                <div class="flex items-center justify-between text-sm font-semibold text-slate-400 group-hover:text-purple-300 transition-colors duration-200 pt-6 border-t border-slate-800/80">
                     <span>Ver detalle</span>
-                    <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 group-hover:border-[#054C50] group-hover:bg-[#054C50] flex items-center justify-center transition-all">
+                    <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 group-hover:border-purple-500 group-hover:bg-purple-700 flex items-center justify-center transition-all">
                         <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-200 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -138,22 +139,22 @@
             <!-- TARJETA 3: 2.3.5 Actualización en sistemas clave-valor -->
             <button 
                 onclick="openModal('modal-235')" 
-                class="animate-fade-in-up animation-delay-400 opacity-0 group relative bg-darkCard/90 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 text-left shadow-xl hover:shadow-2xl hover:shadow-[#054C50]/20 hover:-translate-y-2 hover:border-[#054C50] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#054C50]/30 flex flex-col justify-between min-h-[240px] cursor-pointer overflow-hidden">
+                class="animate-fade-in-up animation-delay-400 opacity-0 group relative bg-darkCard/90 backdrop-blur-sm border border-slate-800 rounded-3xl p-8 text-left shadow-xl hover:shadow-2xl hover:shadow-purple-900/40 hover:-translate-y-2 hover:border-purple-600 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-600/30 flex flex-col justify-between min-h-[240px] cursor-pointer overflow-hidden">
                 
-                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#054C50] via-tealLight to-teal-400 opacity-80 group-hover:h-2 transition-all duration-300"></div>
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purpleDark via-purpleLight to-purpleGlow opacity-80 group-hover:h-2 transition-all duration-300"></div>
                 
                 <div class="pt-2">
-                    <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-teal-300 bg-[#054C50]/40 border border-[#054C50]/60 rounded-full mb-4 group-hover:bg-[#054C50] group-hover:text-white transition-colors">
+                    <span class="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-300 bg-purple-950/60 border border-purple-700/60 rounded-full mb-4 group-hover:bg-purple-700 group-hover:text-white transition-colors">
                         Sección 3
                     </span>
-                    <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-teal-300 transition-colors duration-200 leading-snug">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-300 transition-colors duration-200 leading-snug">
                         2.3.5 Actualización en sistemas clave-valor
                     </h2>
                 </div>
 
-                <div class="flex items-center justify-between text-sm font-semibold text-slate-400 group-hover:text-teal-300 transition-colors duration-200 pt-6 border-t border-slate-800/80">
+                <div class="flex items-center justify-between text-sm font-semibold text-slate-400 group-hover:text-purple-300 transition-colors duration-200 pt-6 border-t border-slate-800/80">
                     <span>Ver detalle</span>
-                    <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 group-hover:border-[#054C50] group-hover:bg-[#054C50] flex items-center justify-center transition-all">
+                    <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 group-hover:border-purple-500 group-hover:bg-purple-700 flex items-center justify-center transition-all">
                         <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-200 text-slate-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -168,11 +169,11 @@
     <div id="modal-233" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity" onclick="closeModal('modal-233')"></div>
 
-        <div class="relative bg-slate-900 border border-[#054C50]/80 rounded-3xl shadow-2xl shadow-[#054C50]/20 max-w-2xl w-full overflow-hidden transform scale-95 transition-all duration-300 z-10 flex flex-col max-h-[90vh]">
+        <div class="relative bg-slate-900 border border-purple-700/70 rounded-3xl shadow-2xl shadow-purple-900/40 max-w-2xl w-full overflow-hidden transform scale-95 transition-all duration-300 z-10 flex flex-col max-h-[90vh]">
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-950/50">
                 <div class="flex items-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-[#054C50]"></span>
+                    <span class="w-3 h-3 rounded-full bg-purple-500"></span>
                     <h3 class="text-xl font-bold text-white">2.3.3 Actualización múltiple</h3>
                 </div>
                 <button onclick="closeModal('modal-233')" class="text-slate-400 hover:text-white hover:bg-slate-800 p-2 rounded-full transition-colors focus:outline-none" title="Cerrar modal">
@@ -189,14 +190,14 @@
                 </p>
 
                 <div class="bg-slate-950 rounded-2xl p-5 font-mono text-xs sm:text-sm leading-relaxed text-slate-200 border border-slate-800 shadow-inner overflow-x-auto">
-                    <span class="text-sky-400">db</span>.<span class="text-teal-300">clientes</span>.<span class="text-emerald-400 font-semibold">updateMany</span>(<br>
+                    <span class="text-sky-400">db</span>.<span class="text-purple-300">clientes</span>.<span class="text-purple-400 font-semibold">updateMany</span>(<br>
                     &nbsp;&nbsp;{<span class="text-indigo-300">ciudad</span>:<span class="text-amber-300">"Bogotá"</span>},<br>
-                    &nbsp;&nbsp;{<span class="text-purple-400">$set</span>:{<span class="text-indigo-300">region</span>:<span class="text-amber-300">"Centro"</span>}}<br>
+                    &nbsp;&nbsp;{<span class="text-pink-400">$set</span>:{<span class="text-indigo-300">region</span>:<span class="text-amber-300">"Centro"</span>}}<br>
                     )
                 </div>
 
-                <div class="bg-[#054C50]/20 border-l-4 border-[#054C50] p-4 rounded-r-2xl">
-                    <p class="text-sm text-teal-200 font-medium">
+                <div class="bg-purple-950/40 border-l-4 border-purple-500 p-4 rounded-r-2xl">
+                    <p class="text-sm text-purple-200 font-medium">
                         Actualiza todos los clientes coincidentes.
                     </p>
                 </div>
@@ -204,7 +205,7 @@
 
             <!-- Modal Footer -->
             <div class="px-6 py-4 bg-slate-950/50 border-t border-slate-800 text-right">
-                <button onclick="closeModal('modal-233')" class="px-6 py-2.5 bg-[#054C50] hover:bg-tealLight text-white rounded-xl text-sm font-semibold transition-colors shadow-md focus:outline-none">
+                <button onclick="closeModal('modal-233')" class="px-6 py-2.5 bg-purple-700 hover:bg-purple-600 text-white rounded-xl text-sm font-semibold transition-colors shadow-md focus:outline-none">
                     Entendido
                 </button>
             </div>
@@ -215,11 +216,11 @@
     <div id="modal-234" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity" onclick="closeModal('modal-234')"></div>
 
-        <div class="relative bg-slate-900 border border-[#054C50]/80 rounded-3xl shadow-2xl shadow-[#054C50]/20 max-w-2xl w-full overflow-hidden transform scale-95 transition-all duration-300 z-10 flex flex-col max-h-[90vh]">
+        <div class="relative bg-slate-900 border border-purple-700/70 rounded-3xl shadow-2xl shadow-purple-900/40 max-w-2xl w-full overflow-hidden transform scale-95 transition-all duration-300 z-10 flex flex-col max-h-[90vh]">
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-950/50">
                 <div class="flex items-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-tealLight"></span>
+                    <span class="w-3 h-3 rounded-full bg-purple-400"></span>
                     <h3 class="text-xl font-bold text-white">2.3.4 Reemplazo completo de documento</h3>
                 </div>
                 <button onclick="closeModal('modal-234')" class="text-slate-400 hover:text-white hover:bg-slate-800 p-2 rounded-full transition-colors focus:outline-none" title="Cerrar modal">
@@ -236,7 +237,7 @@
                 </p>
 
                 <div class="bg-slate-950 rounded-2xl p-5 font-mono text-xs sm:text-sm leading-relaxed text-slate-200 border border-slate-800 shadow-inner overflow-x-auto">
-                    <span class="text-sky-400">db</span>.<span class="text-teal-300">clientes</span>.<span class="text-emerald-400 font-semibold">replaceOne</span>(<br>
+                    <span class="text-sky-400">db</span>.<span class="text-purple-300">clientes</span>.<span class="text-purple-400 font-semibold">replaceOne</span>(<br>
                     &nbsp;&nbsp;{<span class="text-indigo-300">_id</span>:<span class="text-orange-400">1001</span>},<br>
                     &nbsp;&nbsp;{<span class="text-indigo-300">nombre</span>:<span class="text-amber-300">"Ana"</span>,<br>
                     &nbsp;&nbsp;&nbsp;<span class="text-indigo-300">ciudad</span>:<span class="text-amber-300">"Cali"</span>}<br>
@@ -252,7 +253,7 @@
 
             <!-- Modal Footer -->
             <div class="px-6 py-4 bg-slate-950/50 border-t border-slate-800 text-right">
-                <button onclick="closeModal('modal-234')" class="px-6 py-2.5 bg-[#054C50] hover:bg-tealLight text-white rounded-xl text-sm font-semibold transition-colors shadow-md focus:outline-none">
+                <button onclick="closeModal('modal-234')" class="px-6 py-2.5 bg-purple-700 hover:bg-purple-600 text-white rounded-xl text-sm font-semibold transition-colors shadow-md focus:outline-none">
                     Entendido
                 </button>
             </div>
@@ -263,11 +264,11 @@
     <div id="modal-235" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity" onclick="closeModal('modal-235')"></div>
 
-        <div class="relative bg-slate-900 border border-[#054C50]/80 rounded-3xl shadow-2xl shadow-[#054C50]/20 max-w-2xl w-full overflow-hidden transform scale-95 transition-all duration-300 z-10 flex flex-col max-h-[90vh]">
+        <div class="relative bg-slate-900 border border-purple-700/70 rounded-3xl shadow-2xl shadow-purple-900/40 max-w-2xl w-full overflow-hidden transform scale-95 transition-all duration-300 z-10 flex flex-col max-h-[90vh]">
             <!-- Modal Header -->
             <div class="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-950/50">
                 <div class="flex items-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-teal-400"></span>
+                    <span class="w-3 h-3 rounded-full bg-purple-300"></span>
                     <h3 class="text-xl font-bold text-white">2.3.5 Actualización en sistemas clave-valor</h3>
                 </div>
                 <button onclick="closeModal('modal-235')" class="text-slate-400 hover:text-white hover:bg-slate-800 p-2 rounded-full transition-colors focus:outline-none" title="Cerrar modal">
@@ -285,7 +286,7 @@
 
                 <!-- Block 1 -->
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">Ejemplo</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-purple-400 block mb-2">Ejemplo</span>
                     <div class="bg-slate-950 rounded-2xl p-4 font-mono text-xs sm:text-sm leading-relaxed text-slate-200 border border-slate-800 shadow-inner overflow-x-auto">
                         <span class="text-pink-400 font-bold">SET</span> cliente:<span class="text-orange-400">1001</span> <span class="text-amber-300">"Ana Torres - Medellín"</span>
                     </div>
@@ -297,7 +298,7 @@
 
                 <!-- Block 2 -->
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">Consulta posterior</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-purple-400 block mb-2">Consulta posterior</span>
                     <div class="bg-slate-950 rounded-2xl p-4 font-mono text-xs sm:text-sm leading-relaxed text-slate-200 border border-slate-800 shadow-inner overflow-x-auto">
                         <span class="text-pink-400 font-bold">GET</span> cliente:<span class="text-orange-400">1001</span>
                     </div>
@@ -306,7 +307,7 @@
 
             <!-- Modal Footer -->
             <div class="px-6 py-4 bg-slate-950/50 border-t border-slate-800 text-right">
-                <button onclick="closeModal('modal-235')" class="px-6 py-2.5 bg-[#054C50] hover:bg-tealLight text-white rounded-xl text-sm font-semibold transition-colors shadow-md focus:outline-none">
+                <button onclick="closeModal('modal-235')" class="px-6 py-2.5 bg-purple-700 hover:bg-purple-600 text-white rounded-xl text-sm font-semibold transition-colors shadow-md focus:outline-none">
                     Entendido
                 </button>
             </div>
